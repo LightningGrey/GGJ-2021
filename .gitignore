@@ -58,3 +58,11 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+
+## Custom ignored
+#FMOD garbage files
+fmod_editor.log 
+Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset
+
+#macOS garbage files
+*.DS_Store
