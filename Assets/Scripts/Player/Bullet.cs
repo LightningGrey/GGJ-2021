@@ -44,7 +44,7 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.tag == "Player" && _rb.drag > 500)
         {
             _manager.ResetBullet(gameObject);
             ResetDrag();
