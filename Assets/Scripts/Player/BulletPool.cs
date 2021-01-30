@@ -17,14 +17,19 @@ public class BulletPool : MonoBehaviour
         _BuildPool();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Init()
     {
-        
+        _bulletPool = new Queue<GameObject>();
+        _BuildPool();
     }
 
     private void _BuildPool()
     {
+        if (!isEmpty())
+        {
+            _bulletPool.Clear();
+        }
+
         for (int i = 0; i < _maxBullets; i++)
         {
             _bulletClone = Instantiate(_bullet);
@@ -53,5 +58,9 @@ public class BulletPool : MonoBehaviour
         return (_bulletPool.Count <= 0);
     }
 
-
+    public void SetSize(int size)
+    {
+        _maxBullets = size;
+        Init();
+    }
 }
