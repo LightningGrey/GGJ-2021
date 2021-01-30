@@ -7,17 +7,25 @@ public class Player : MonoBehaviour
 {
     //player variables
     [Header("Player Variables")]
-    [SerializeField] private float moveSpd;
-    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private float _moveSpd;
+    [SerializeField] public Rigidbody2D _rb;
+    //[SerializeField] private List<Bullet> _bullets;
 
     //other variables
-    private Vector2 moveVec = new Vector2(0.0f, 0.0f);
+    [Header("")]
+    [SerializeField] private Transform top;
+    private Vector2 _moveVec = Vector2.zero;
 
+    private GameObject _managerObj;
+    private BulletPool _manager;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
+
+        _managerObj = GameObject.FindGameObjectWithTag("Manager");
+        _manager = _managerObj.GetComponent<BulletPool>();
     }
 
     // Update is called once per frame
@@ -28,29 +36,34 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Movement(); 
+        _Movement(); 
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        moveVec = context.ReadValue<Vector2>().normalized * 0.5f;
-        if (moveVec != Vector2.zero)
+        _moveVec = context.ReadValue<Vector2>().normalized * 0.5f;
+        if (_moveVec != Vector2.zero)
         {
-            float angle = Mathf.Atan2(-moveVec.x, moveVec.y) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(-_moveVec.x, _moveVec.y) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
-        //Debug.Log(moveVec);
 
     }
 
     public void OnShoot(InputAction.CallbackContext context)
     {
-        
+        if (context.performed && !_manager.isEmpty())
+        {
+            GameObject _newBullet = _manager.GetBullet();
+            _newBullet.transform.position = top.transform.position;
+            _newBullet.transform.rotation = transform.rotation;
+        }
     }
 
-    private void Movement()
+    private void _Movement()
     {
-        rb.AddForce(moveVec * moveSpd, ForceMode2D.Impulse);
+        _rb.AddForce(_moveVec * _moveSpd * Time.fixedDeltaTime, ForceMode2D.Impulse);
+        _rb.velocity = Vector2.ClampMagnitude(_rb.velocity, 5.0f);
     }
 
 }
