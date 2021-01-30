@@ -12,12 +12,15 @@ public class Bullet : MonoBehaviour
     [SerializeField] private Player _player;
     [SerializeField] private Rigidbody2D _rb;
 
+
+    private float _baseDrag;
     private bool _slowdown = false;
 
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _baseDrag = _rb.drag;
 
         _managerObj = GameObject.FindGameObjectWithTag("Manager");
         _manager = _managerObj.GetComponent<BulletPool>();
@@ -35,8 +38,22 @@ public class Bullet : MonoBehaviour
 
     private void _Move()
     {
-        _rb.AddForce(transform.up * _speed, ForceMode2D.Impulse);
+        _rb.AddForce(transform.up * _speed * Time.fixedDeltaTime, ForceMode2D.Impulse);
         _rb.drag += 5.0f;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            _manager.ResetBullet(gameObject);
+            ResetDrag();
+        }
+    }
+
+    private void ResetDrag()
+    {
+        _rb.drag = _baseDrag;
     }
 
 }

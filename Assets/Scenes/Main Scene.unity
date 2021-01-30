@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bullet: {fileID: 8463362577264772782, guid: cd3aeec82ff804f42b8280827680ad64, type: 3}
-  _maxBullets: 100
+  _maxBullets: 5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,6 +320,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1631055580120589663, guid: ed1fa5a91e4d8824089541991c511530, type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1631055580120589663, guid: ed1fa5a91e4d8824089541991c511530, type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7593651362177272031, guid: ed1fa5a91e4d8824089541991c511530, type: 3}
