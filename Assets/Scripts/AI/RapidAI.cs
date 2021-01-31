@@ -7,8 +7,8 @@ public class RapidAI : EnemyAIBase
     public float movementDistance = 5.0f;
     public int bulletsPerShot = 6;
     private int bulletCount;
-    public int framesBetweenBullets = 15;
-    private int bulletTimer = 0;
+    public float timeBetweenBullets = 0.05f;
+    private float bulletTimer = 0.0f;
     private bool isShooting = false;
 
 
@@ -30,36 +30,42 @@ public class RapidAI : EnemyAIBase
 
     protected override void Attack()
     {
-        // rapid AI's attack
+        GameObject _newBullet = pool.GetBullet();
+        _newBullet.transform.position = this.transform.position;
+
+        var offset = -90.0f;
+        Vector2 direction = (Vector2)player.transform.position - (Vector2)transform.position;
+        direction.Normalize();
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        _newBullet.transform.rotation = Quaternion.Euler(Vector3.forward * (angle + offset));
+        _newBullet.GetComponent<Bullet>()._moveDir = _newBullet.transform.up;
+        _newBullet.GetComponent<Bullet>()._speed = bulletSpeed;
+    }
+
+    protected override void Update() {
+        Move();
         shotTimer += Time.deltaTime;
-
-        if (shotTimer >= timeBetweenShots)
-        {
+        if (shotTimer >= timeBetweenShots) {
+            isShooting = true;
+        }
+    }
+    private void FixedUpdate() {
+        if (isShooting) {
             if (bulletCount < bulletsPerShot) {
-                if(bulletTimer>=framesBetweenBullets){
-                    GameObject _newBullet;
-
-                    var offset = -90.0f;
-                    Vector2 direction = (Vector2)player.transform.position - (Vector2)transform.position;
-                    direction.Normalize();
-                    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-                    for (int i = 0; i < 5; i++) {
-                        _newBullet = pool.GetBullet();
-                        _newBullet.transform.position = this.transform.position;
-                        _newBullet.transform.rotation = Quaternion.Euler(Vector3.forward * (angle + offset));
-                        _newBullet.GetComponent<Bullet>()._moveDir = _newBullet.transform.up;
-                    }
+                if (bulletTimer >= timeBetweenBullets) {
+                    Attack();
                     bulletCount++;
                     bulletTimer = 0;
                 }
                 else {
-                    bulletTimer += 1;
+                    bulletTimer += Time.fixedDeltaTime;
                 }
             }
             else if (bulletCount >= bulletsPerShot) {
                 shotTimer = 0;
-                bulletCount=0;
+                bulletCount = 0;
+                isShooting = false;
             }
         }
     }

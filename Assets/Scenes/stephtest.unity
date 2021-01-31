@@ -159,6 +159,7 @@ MonoBehaviour:
   pool: {fileID: 1048950329}
   poolSize: 100
   speed: 3
+  bulletSpeed: 10
   timeBetweenShots: 5
   _rb: {fileID: 156696943}
   timeBetweenMoves: 3
@@ -572,11 +573,12 @@ MonoBehaviour:
   pool: {fileID: 1048950329}
   poolSize: 100
   speed: 1
+  bulletSpeed: 4
   timeBetweenShots: 5
   _rb: {fileID: 0}
   movementDistance: 2
   bulletsPerShot: 6
-  framesBetweenBullets: 20
+  timeBetweenBullets: 0.1
 --- !u!65 &1100622725
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -928,6 +930,7 @@ MonoBehaviour:
   pool: {fileID: 1048950329}
   poolSize: 100
   speed: 1
+  bulletSpeed: 1.5
   timeBetweenShots: 5
   _rb: {fileID: 0}
   movementDistance: 2

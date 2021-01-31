@@ -31,7 +31,7 @@ public class ShotgunAI : EnemyAIBase
 
             GameObject _newBullet;
 
-            var offset = -70.0f;
+            var offset = -60.0f;
             Vector2 direction = (Vector2)player.transform.position - (Vector2)transform.position;
             direction.Normalize();
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -41,7 +41,8 @@ public class ShotgunAI : EnemyAIBase
                 _newBullet.transform.position = this.transform.position;
                 _newBullet.transform.rotation = Quaternion.Euler(Vector3.forward * (angle + offset));
                 _newBullet.GetComponent<Bullet>()._moveDir = _newBullet.transform.up;
-                offset -= 10.0f;
+                _newBullet.GetComponent<Bullet>()._speed = bulletSpeed;
+                offset -= 15.0f;
             }
 
             shotTimer = 0;

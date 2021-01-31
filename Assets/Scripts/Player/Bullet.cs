@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     private float _power = 1.0f;
-    [SerializeField] private float _speed;
+    [SerializeField] public float _speed;
 
     [SerializeField] private GameObject _managerObj;
     [SerializeField] private BulletPool _manager;
