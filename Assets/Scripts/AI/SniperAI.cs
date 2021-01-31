@@ -21,13 +21,12 @@ public class SniperAI : EnemyAIBase
     protected override void Move()
     {
         // sniper AI's movement
-        // every x amount of time, pick a random angle and lerp towards it
+        // every x amount of time, pick a random angle and add force in that direction
 
         //pick random movevec
         _moveVec.x = Random.Range(-1.0f, 1.0f);
         _moveVec.y = Random.Range(-1.0f, 1.0f);
 
-        Debug.Log(_moveVec.ToString());
         _moveVec.Normalize();
 
         _rb.AddForce(_moveVec * speed, ForceMode2D.Impulse);

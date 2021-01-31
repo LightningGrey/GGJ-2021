@@ -387,9 +387,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae4375ae5311f5b45bb7afbca9c10096, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1232928091}
-  offset: {x: 0, y: 0, z: 0}
-  smoothing: 1
+  _target: {fileID: 1232928091}
+  _offset: {x: 0, y: 0, z: 0}
+  _xSize: 50
+  _ySize: 50
+  _smoothing: 1
 --- !u!1 &660730201
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,6 +797,10 @@ PrefabInstance:
     - target: {fileID: 1631055580120589657, guid: ed1fa5a91e4d8824089541991c511530, type: 3}
       propertyPath: _moveSpd
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1631055580120589658, guid: ed1fa5a91e4d8824089541991c511530, type: 3}
+      propertyPath: m_Constraints
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1631055580120589663, guid: ed1fa5a91e4d8824089541991c511530, type: 3}
       propertyPath: m_Name
