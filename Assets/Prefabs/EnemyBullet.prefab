@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 6249105874108408642}
   - component: {fileID: 7201867049842857140}
   - component: {fileID: 4878915350298464414}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnemyBullet
   m_TagString: EB
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21156856f0df8fa4ab6e496aea71fb2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 10
+  _speed: 100
   _managerObj: {fileID: 0}
   _manager: {fileID: 0}
   _player: {fileID: 1631055580120589657, guid: ed1fa5a91e4d8824089541991c511530, type: 3}

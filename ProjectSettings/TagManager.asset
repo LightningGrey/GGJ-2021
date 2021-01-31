@@ -9,6 +9,7 @@ TagManager:
   - EB
   - Enemy
   - Wall
+  - EnemyManager
   layers:
   - Default
   - TransparentFX

@@ -48,6 +48,7 @@ public class SniperAI : EnemyAIBase
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
             _newBullet.transform.rotation = Quaternion.Euler(Vector3.forward * (angle + offset));
+            _newBullet.GetComponent<Bullet>()._moveDir = _newBullet.transform.up;
 
             shotTimer = 0;
         }

@@ -40,6 +40,7 @@ public class ShotgunAI : EnemyAIBase
                 _newBullet = pool.GetBullet();
                 _newBullet.transform.position = this.transform.position;
                 _newBullet.transform.rotation = Quaternion.Euler(Vector3.forward * (angle + offset));
+                _newBullet.GetComponent<Bullet>()._moveDir = _newBullet.transform.up;
                 offset -= 10.0f;
             }
 
