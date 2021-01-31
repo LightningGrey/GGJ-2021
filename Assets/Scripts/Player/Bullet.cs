@@ -80,7 +80,7 @@ public class Bullet : MonoBehaviour
             }
             else if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Wall")
             {
-                transform.position = new Vector3(11.0f, 11.0f, 0.0f);
+                transform.position = new Vector3(_camera._xSize, _camera._ySize, 0.0f);
                 _rb.velocity = Vector2.zero;
                 _outOfBounds = true;
             }
@@ -92,23 +92,6 @@ public class Bullet : MonoBehaviour
                 _manager.ResetBullet(gameObject);
                 _Reset();
             }
-        }
-
-        if (collision.gameObject.tag == "Player" && _pickup == true)
-        {
-            _manager.ResetBullet(gameObject);
-            _Reset();
-        }
-        else if (collision.gameObject.tag == "Enemy")
-        {
-
-
-        }
-        else if (collision.gameObject.tag == "Wall")
-        {
-            transform.position = new Vector3(-11.0f, -11.0f, 0.0f);
-            _rb.velocity = Vector2.zero;
-
         }
     }
 
