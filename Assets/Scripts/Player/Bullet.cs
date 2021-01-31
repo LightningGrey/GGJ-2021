@@ -21,8 +21,13 @@ public class Bullet : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _baseDrag = _rb.drag;
-      
-        _managerObj = GameObject.FindGameObjectWithTag("Manager");
+
+        if (tag == "PB") {
+            _managerObj = GameObject.FindGameObjectWithTag("Manager");
+        }
+        else if (tag == "EB") {
+            _managerObj = GameObject.FindGameObjectWithTag("EnemyManager");
+        }
         _manager = _managerObj.GetComponent<BulletPool>();
 
     }
@@ -47,22 +52,27 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player" && _rebound == true)
-        {
-            _manager.ResetBullet(gameObject);
-            Reset();
-        }
-        else if (collision.gameObject.tag == "Enemy")
-        {
-            _moveDir = RandomDir().normalized;
-            Debug.Log(_moveDir);
-            _rebound = true;
+        if (tag == "PB") {
+            if (collision.gameObject.tag == "Player" && _rebound == true) {
+                _manager.ResetBullet(gameObject);
+                Reset();
+            }
+            else if (collision.gameObject.tag == "Enemy") {
+                _moveDir = RandomDir().normalized;
+                Debug.Log(_moveDir);
+                _rebound = true;
 
+            }
+            else if (collision.gameObject.tag == "Wall") {
+                transform.position = new Vector3(11.0f, 11.0f, 0.0f);
+                _rb.velocity = Vector2.zero;
+            }
         }
-        else if (collision.gameObject.tag == "Wall")
-        {
-            transform.position = new Vector3(11.0f, 11.0f, 0.0f);
-            _rb.velocity = Vector2.zero;
+        else if (tag == "EB") {
+            if (collision.gameObject.tag == "Player") {
+                _manager.ResetBullet(gameObject);
+                Reset();
+            }
         }
     }
 

@@ -9,6 +9,7 @@ public class RapidAI : EnemyAIBase
     private int bulletCount;
     public int framesBetweenBullets = 15;
     private int bulletTimer = 0;
+    private bool isShooting = false;
 
 
     // Start is called before the first frame update
@@ -47,6 +48,7 @@ public class RapidAI : EnemyAIBase
                         _newBullet = pool.GetBullet();
                         _newBullet.transform.position = this.transform.position;
                         _newBullet.transform.rotation = Quaternion.Euler(Vector3.forward * (angle + offset));
+                        _newBullet.GetComponent<Bullet>()._moveDir = _newBullet.transform.up;
                     }
                     bulletCount++;
                     bulletTimer = 0;
