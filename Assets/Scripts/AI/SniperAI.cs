@@ -8,6 +8,9 @@ public class SniperAI : EnemyAIBase
     public float timeBetweenMoves = 5;
     private float moveTimer = 0;
 
+    private Animator animator;
+    private bool windupPlayed = false;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -16,6 +19,7 @@ public class SniperAI : EnemyAIBase
         pool.SetSize(poolSize);
         _moveVec = Vector2.zero;
         _rb.gravityScale = 0;
+        animator = gameObject.GetComponent<Animator>();
     }
 
     protected override void Move()
@@ -39,6 +43,19 @@ public class SniperAI : EnemyAIBase
 
         if (shotTimer >= timeBetweenShots)
         {
+            // windup hasnt been played and is not currently playing
+            if (!windupPlayed && !animator.GetCurrentAnimatorStateInfo(0).IsName("AttackWindup"))
+            {
+                // windup animation
+                //animator.SetBool(0, true);
+            }
+            // windup not player but is currently playing
+            else if (!windupPlayed && animator.GetCurrentAnimatorStateInfo(0).IsName("AttackWindup"))
+            {
+                //if (animator)
+            }
+            
+
             GameObject _newBullet = pool.GetBullet();
             _newBullet.transform.position = this.transform.position;
 
