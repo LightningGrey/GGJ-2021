@@ -13,7 +13,7 @@ public class SniperAI : EnemyAIBase
     {
         base.Start();
         type = EnemyType.Sniper;
-        pool.SetSize(poolSize);
+
         _moveVec = Vector2.zero;
         _rb.gravityScale = 0;
     }

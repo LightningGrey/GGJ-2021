@@ -11,7 +11,6 @@ public class ShotgunAI : EnemyAIBase
     {
         base.Start();
         type = EnemyType.Shotgun;
-        pool.SetSize(poolSize);
     }
 
     protected override void Move()

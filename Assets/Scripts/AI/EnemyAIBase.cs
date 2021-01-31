@@ -8,7 +8,6 @@ public class EnemyAIBase : MonoBehaviour
 {
     public EnemyType type;
     [SerializeField] protected BulletPool pool;
-    public int poolSize;
     public float speed;
     public float bulletSpeed;
     public float timeBetweenShots;

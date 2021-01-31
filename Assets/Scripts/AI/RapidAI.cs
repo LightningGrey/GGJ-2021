@@ -17,7 +17,6 @@ public class RapidAI : EnemyAIBase
     {
         base.Start();
         type = EnemyType.Rapid;
-        pool.SetSize(poolSize);
     }
 
     protected override void Move()

@@ -41,22 +41,28 @@ public class Bullet : MonoBehaviour
     {
         if (_outOfBounds)
         {
-            _timer += Time.deltaTime;
-            if (_timer > 3.0f)
+            if (tag == "PB")
             {
-                _timer = 0.0f;
-                _outOfBounds = false;
-                _pickup = true;
-                transform.position = new Vector3(Random.Range(-_camera._xSize/2,
-                    _camera._xSize/2), Random.Range(-_camera._ySize/2, _camera._ySize/2));
-                transform.rotation = Quaternion.identity;
+                _timer += Time.deltaTime;
+                if (_timer > 3.0f)
+                {
+                    _timer = 0.0f;
+                    _outOfBounds = false;
+                    _pickup = true;
+                    transform.position = new Vector3(Random.Range(-_camera._xSize / 2,
+                        _camera._xSize / 2), Random.Range(-_camera._ySize / 2, _camera._ySize / 2));
+                    transform.rotation = Quaternion.identity;
+                }
+            //} else if (tag == "EB")
+            //{
+            //    _manager.ResetBullet(gameObject);
             }
         } 
     }
 
     void FixedUpdate()
     {
-        if (!_OOB() && _pickup != true)
+        if (!_outOfBounds && !_pickup)
         {
             _Move();
         }
@@ -66,6 +72,17 @@ public class Bullet : MonoBehaviour
     {
         _rb.AddForce(_moveDir * _speed * Time.fixedDeltaTime, ForceMode2D.Impulse);
         _rb.velocity = Vector2.ClampMagnitude(_rb.velocity, 5.5f);
+        if (!_outOfBounds && !_InBounds())
+        {
+            if (tag == "PB") {
+                _outOfBounds = true;
+                transform.position = new Vector3(_camera._xSize, _camera._ySize, 0.0f);
+                _rb.velocity = Vector2.zero;
+            } else
+            {
+                _manager.ResetBullet(gameObject);
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -78,7 +95,7 @@ public class Bullet : MonoBehaviour
                 _manager.ResetBullet(gameObject);
                 _Reset();
             }
-            else if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Wall")
+            else if (collision.gameObject.tag == "Enemy")
             {
                 transform.position = new Vector3(_camera._xSize, _camera._ySize, 0.0f);
                 _rb.velocity = Vector2.zero;
@@ -90,7 +107,6 @@ public class Bullet : MonoBehaviour
             if (collision.gameObject.tag == "Player")
             {
                 _manager.ResetBullet(gameObject);
-                _Reset();
             }
         }
     }
@@ -100,27 +116,11 @@ public class Bullet : MonoBehaviour
         _pickup = false;
     }
 
-    private bool _OOB()
+    private bool _InBounds()
     {
-        return (transform.position.x <= -_camera._xSize/2 || transform.position.x >= _camera._xSize /2
-            ||transform.position.y <= -_camera._ySize/2 || transform.position.y >= _camera._ySize/2);
+        return (transform.position.x >= -_camera._xSize/2 && transform.position.x <= _camera._xSize/2
+            && transform.position.y >= -_camera._ySize/2 && transform.position.y <= _camera._ySize/2);
     }
 
-    private Vector2 _RandomDir()
-    {
-        float x = 0.0f;
-        float y = 0.0f;
-
-        while (x == 0.0f)
-        {
-            x = Random.Range(-1.0f, 1.0f);
-        }
-        while (y == 0.0f)
-        {
-            y = Random.Range(-1.0f, 1.0f);
-        }
-
-        return new Vector2(x, y);
-    }
         
 }

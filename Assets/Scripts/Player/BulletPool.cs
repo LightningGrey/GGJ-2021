@@ -6,7 +6,7 @@ public class BulletPool : MonoBehaviour
 {
     [SerializeField] private GameObject _bullet;
     private GameObject _bulletClone;
-    [SerializeField] private int _maxBullets = 5;
+    [SerializeField] private int _maxBullets;
 
     private Queue<GameObject> _bulletPool;
 
@@ -25,10 +25,6 @@ public class BulletPool : MonoBehaviour
 
     private void _BuildPool()
     {
-        if (!isEmpty())
-        {
-            _bulletPool.Clear();
-        }
 
         for (int i = 0; i < _maxBullets; i++)
         {
@@ -58,9 +54,4 @@ public class BulletPool : MonoBehaviour
         return (_bulletPool.Count <= 0);
     }
 
-    public void SetSize(int size)
-    {
-        _maxBullets = size;
-        Init();
-    }
 }
