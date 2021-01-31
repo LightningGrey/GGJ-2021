@@ -54,8 +54,11 @@ public class TitleScreen : MonoBehaviour
 
     public void onPressContinue()
     {
-        //Debug.Log("bing");
         SceneManager.LoadScene(1);
-        //SceneManager.SetActiveScene(SceneManager.GetSceneAt(1));
+    }
+
+    public void onPressExit()
+    {
+        Application.Quit();
     }
 }
