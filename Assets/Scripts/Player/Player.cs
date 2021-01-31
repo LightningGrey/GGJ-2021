@@ -15,6 +15,10 @@ public class Player : MonoBehaviour
     [Header("")]
     [SerializeField] private Transform top;
     private Vector2 _moveVec = Vector2.zero;
+    private bool isDodging = false;
+    private float dodgeTimer = 0.0f;
+    [SerializeField] private float dodgeDuration = 1.0f;
+    [SerializeField] private float timeBetweenDodges= 3.0f;
 
     private GameObject _managerObj;
     private BulletPool _manager;
@@ -31,7 +35,11 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        dodgeTimer += Time.deltaTime;
+        if (isDodging && dodgeTimer >= dodgeDuration) {
+            isDodging = false;
+            dodgeTimer = 0.0f;
+        }
     }
 
     private void FixedUpdate()
@@ -58,6 +66,13 @@ public class Player : MonoBehaviour
             _newBullet.GetComponent<Bullet>()._moveDir = transform.up;
             _newBullet.transform.position = top.transform.position;
             _newBullet.transform.rotation = transform.rotation;
+        }
+    }
+
+    public void OnDodge(InputAction.CallbackContext context) {
+        if (!isDodging && dodgeTimer >= timeBetweenDodges) {
+            isDodging = true;
+            dodgeTimer = 0.0f;
         }
     }
 
