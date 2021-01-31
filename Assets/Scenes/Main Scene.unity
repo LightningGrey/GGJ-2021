@@ -367,7 +367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bullet: {fileID: 8463362577264772782, guid: cd3aeec82ff804f42b8280827680ad64, type: 3}
-  _maxBullets: 100
+  _maxBullets: 3
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
