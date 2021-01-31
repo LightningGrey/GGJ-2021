@@ -12,16 +12,16 @@ public class Bullet : MonoBehaviour
     [SerializeField] private Player _player;
     [SerializeField] private Rigidbody2D _rb;
 
-
+    public Vector2 _moveDir = Vector2.zero;
     private float _baseDrag;
-    private bool _slowdown = false;
+    private bool _rebound = false;
 
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _baseDrag = _rb.drag;
-
+      
         _managerObj = GameObject.FindGameObjectWithTag("Manager");
         _manager = _managerObj.GetComponent<BulletPool>();
 
@@ -30,7 +30,7 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (_rb.drag < 1000)
+        if (_rb.drag < 100 && !OOB())
         {
             _Move();
         }
@@ -38,22 +38,61 @@ public class Bullet : MonoBehaviour
 
     private void _Move()
     {
-        _rb.AddForce(transform.up * _speed * Time.fixedDeltaTime, ForceMode2D.Impulse);
-        _rb.drag += 5.0f;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Player" && _rb.drag > 500)
+        _rb.AddForce(_moveDir * _speed * Time.fixedDeltaTime, ForceMode2D.Impulse);
+        if (_rebound)
         {
-            _manager.ResetBullet(gameObject);
-            ResetDrag();
+          _rb.drag += 1f;
         }
     }
 
-    private void ResetDrag()
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player" && _rebound == true)
+        {
+            _manager.ResetBullet(gameObject);
+            Reset();
+        }
+        else if (collision.gameObject.tag == "Enemy")
+        {
+            _moveDir = RandomDir().normalized;
+            Debug.Log(_moveDir);
+            _rebound = true;
+
+        }
+        else if (collision.gameObject.tag == "Wall")
+        {
+            transform.position = new Vector3(11.0f, 11.0f, 0.0f);
+            _rb.velocity = Vector2.zero;
+        }
+    }
+
+    private void Reset()
     {
         _rb.drag = _baseDrag;
+        _rebound = false;
+    }
+
+    private bool OOB()
+    {
+        return (transform.position.x >= 10.0f || transform.position.x <= -10.0f ||
+            transform.position.y <= -10.0f || transform.position.y >= 10.0f);
+    }
+
+    private Vector2 RandomDir()
+    {
+        float x = 0.0f;
+        float y = 0.0f;
+
+        while (x == 0.0f)
+        {
+            x = Random.Range(-1.0f, 1.0f);
+        }
+        while (y == 0.0f)
+        {
+            y = Random.Range(-1.0f, 1.0f);
+        }
+
+        return new Vector2(x, y);
     }
 
 }
