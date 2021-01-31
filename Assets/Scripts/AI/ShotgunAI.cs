@@ -27,9 +27,21 @@ public class ShotgunAI : EnemyAIBase
         // shotgun AI's attack
         shotTimer += Time.deltaTime;
 
-        if (shotTimer >= timeBetweenShots)
-        {
-            // shoot
+        if (shotTimer >= timeBetweenShots) {
+
+            GameObject _newBullet;
+
+            var offset = -70.0f;
+            Vector2 direction = (Vector2)player.transform.position - (Vector2)transform.position;
+            direction.Normalize();
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            for (int i = 0; i < 5; i++) {
+                _newBullet = pool.GetBullet();
+                _newBullet.transform.position = this.transform.position;
+                _newBullet.transform.rotation = Quaternion.Euler(Vector3.forward * (angle + offset));
+                offset -= 10.0f;
+            }
 
             shotTimer = 0;
         }

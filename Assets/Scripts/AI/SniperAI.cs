@@ -40,7 +40,15 @@ public class SniperAI : EnemyAIBase
 
         if (shotTimer >= timeBetweenShots)
         {
-            // shoot
+            GameObject _newBullet = pool.GetBullet();
+            _newBullet.transform.position = this.transform.position;
+
+            var offset = -90.0f;
+            Vector2 direction = (Vector2)player.transform.position - (Vector2)transform.position;
+            direction.Normalize();
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            _newBullet.transform.rotation = Quaternion.Euler(Vector3.forward * (angle + offset));
 
             shotTimer = 0;
         }

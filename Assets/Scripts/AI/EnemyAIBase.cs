@@ -7,18 +7,19 @@ public enum EnemyType { Rapid, Shotgun, Sniper };
 public class EnemyAIBase : MonoBehaviour
 {
     public EnemyType type;
-    protected BulletPool pool;
+    [SerializeField] protected BulletPool pool;
     public int poolSize;
     public float speed;
     public float timeBetweenShots;
     protected float shotTimer = 0;
     protected Vector3 startPos;
     public Rigidbody2D _rb;
+    protected Player player;
 
 
     protected virtual void Start()
     {
-        pool = new BulletPool();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         startPos = gameObject.transform.position;
     }
 

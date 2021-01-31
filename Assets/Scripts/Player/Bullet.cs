@@ -46,8 +46,13 @@ public class Bullet : MonoBehaviour
     {
         if (collision.tag == "Player" && _rb.drag > 500)
         {
-            _manager.ResetBullet(gameObject);
-            ResetDrag();
+            if (tag == "PB") {
+                _manager.ResetBullet(gameObject);
+                ResetDrag();
+            }
+            else if (tag == "EB") {
+
+            }
         }
     }
 
