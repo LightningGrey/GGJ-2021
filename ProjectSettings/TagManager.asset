@@ -7,6 +7,8 @@ TagManager:
   - Manager
   - PB
   - EB
+  - Enemy
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Bullet
   - 
   - 
   - 

@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
         if (context.performed && !_manager.isEmpty())
         {
             GameObject _newBullet = _manager.GetBullet();
+            _newBullet.GetComponent<Bullet>()._moveDir = transform.up;
             _newBullet.transform.position = top.transform.position;
             _newBullet.transform.rotation = transform.rotation;
         }
