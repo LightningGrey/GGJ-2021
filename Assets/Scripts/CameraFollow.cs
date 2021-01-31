@@ -7,8 +7,8 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private Transform _target;
     [SerializeField] private Vector3 _offset = Vector3.zero;
 
-    [SerializeField] private float _xSize;
-    [SerializeField] private float _ySize;
+    [SerializeField] public float _xSize;
+    [SerializeField] public float _ySize;
 
     private float _xBound;
     private float _yBound;

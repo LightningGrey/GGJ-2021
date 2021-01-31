@@ -102,6 +102,17 @@
                 },
                 {
                     "name": "",
+                    "id": "24dcec11-d431-4ade-8935-0bbf01027b25",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "59d46c3e-35ee-4c7e-a2ae-7c14e8cc2469",
                     "path": "<Keyboard>/space",
                     "interactions": "",

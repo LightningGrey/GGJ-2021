@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private float _power = 1.0f;
+
     [SerializeField] public float _speed;
 
     [SerializeField] private GameObject _managerObj;
@@ -13,14 +13,18 @@ public class Bullet : MonoBehaviour
     [SerializeField] private Rigidbody2D _rb;
 
     public Vector2 _moveDir = Vector2.zero;
-    private float _baseDrag;
-    private bool _rebound = false;
+
+    private bool _pickup = false;
+    private bool _outOfBounds = false;
+
+    private float _timer = 0.0f;
+
+    private CameraFollow _camera;
 
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _baseDrag = _rb.drag;
 
         if (tag == "PB") {
             _managerObj = GameObject.FindGameObjectWithTag("Manager");
@@ -29,13 +33,30 @@ public class Bullet : MonoBehaviour
             _managerObj = GameObject.FindGameObjectWithTag("EnemyManager");
         }
         _manager = _managerObj.GetComponent<BulletPool>();
-
+        _camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
     }
 
     // Update is called once per frame
+    void Update()
+    {
+        if (_outOfBounds)
+        {
+            _timer += Time.deltaTime;
+            if (_timer > 3.0f)
+            {
+                _timer = 0.0f;
+                _outOfBounds = false;
+                _pickup = true;
+                transform.position = new Vector3(Random.Range(-_camera._xSize/2,
+                    _camera._xSize/2), Random.Range(-_camera._ySize/2, _camera._ySize/2));
+                transform.rotation = Quaternion.identity;
+            }
+        } 
+    }
+
     void FixedUpdate()
     {
-        if (_rb.drag < 100 && !OOB())
+        if (!_OOB() && _pickup != true)
         {
             _Move();
         }
@@ -44,51 +65,65 @@ public class Bullet : MonoBehaviour
     private void _Move()
     {
         _rb.AddForce(_moveDir * _speed * Time.fixedDeltaTime, ForceMode2D.Impulse);
-        if (_rebound)
-        {
-          _rb.drag += 1f;
-        }
+        _rb.velocity = Vector2.ClampMagnitude(_rb.velocity, 5.5f);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (tag == "PB") {
-            if (collision.gameObject.tag == "Player" && _rebound == true) {
+        if (tag == "PB")
+        {
+            if (collision.gameObject.tag == "Player" && _pickup == true)
+            {
+                _pickup = false;
                 _manager.ResetBullet(gameObject);
-                Reset();
+                _Reset();
             }
-            else if (collision.gameObject.tag == "Enemy") {
-                _moveDir = RandomDir().normalized;
-                Debug.Log(_moveDir);
-                _rebound = true;
-
-            }
-            else if (collision.gameObject.tag == "Wall") {
+            else if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Wall")
+            {
                 transform.position = new Vector3(11.0f, 11.0f, 0.0f);
                 _rb.velocity = Vector2.zero;
+                _outOfBounds = true;
             }
         }
-        else if (tag == "EB") {
-            if (collision.gameObject.tag == "Player") {
+        else if (tag == "EB")
+        {
+            if (collision.gameObject.tag == "Player")
+            {
                 _manager.ResetBullet(gameObject);
-                Reset();
+                _Reset();
             }
+        }
+
+        if (collision.gameObject.tag == "Player" && _pickup == true)
+        {
+            _manager.ResetBullet(gameObject);
+            _Reset();
+        }
+        else if (collision.gameObject.tag == "Enemy")
+        {
+
+
+        }
+        else if (collision.gameObject.tag == "Wall")
+        {
+            transform.position = new Vector3(-11.0f, -11.0f, 0.0f);
+            _rb.velocity = Vector2.zero;
+
         }
     }
 
-    private void Reset()
+    private void _Reset()
     {
-        _rb.drag = _baseDrag;
-        _rebound = false;
+        _pickup = false;
     }
 
-    private bool OOB()
+    private bool _OOB()
     {
-        return (transform.position.x >= 10.0f || transform.position.x <= -10.0f ||
-            transform.position.y <= -10.0f || transform.position.y >= 10.0f);
+        return (transform.position.x <= -_camera._xSize/2 || transform.position.x >= _camera._xSize /2
+            ||transform.position.y <= -_camera._ySize/2 || transform.position.y >= _camera._ySize/2);
     }
 
-    private Vector2 RandomDir()
+    private Vector2 _RandomDir()
     {
         float x = 0.0f;
         float y = 0.0f;
@@ -104,5 +139,5 @@ public class Bullet : MonoBehaviour
 
         return new Vector2(x, y);
     }
-
+        
 }
