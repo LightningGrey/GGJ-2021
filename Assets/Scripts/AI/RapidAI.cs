@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class RapidAI : EnemyAIBase
 {
-    public float movementDistance = 5.0f;
+    private Vector2 _moveVec;
+    public float timeBetweenMoves = 5;
+    private float moveTimer = 0;
+    private bool moveDir = true;
+
     public int bulletsPerShot = 6;
     private int bulletCount;
     public float timeBetweenBullets = 0.05f;
@@ -22,10 +26,21 @@ public class RapidAI : EnemyAIBase
 
     protected override void Move()
     {
-        // rapid AI's movement
-        // sinusoidal movement in the x axis
+        if (moveDir)
+        {
+            _moveVec.x = 1.0f;
+        }
+        else
+        {
+            _moveVec.x = -1.0f;
+        }
+        _moveVec.y = 0.0f;
 
-        gameObject.transform.position = startPos + new Vector3(Mathf.Sin(Time.time) * movementDistance, 0.0f, 0.0f);
+        _moveVec.Normalize();
+
+        _rb.AddForce(_moveVec * speed, ForceMode2D.Impulse);
+
+        moveDir = !moveDir;
     }
 
     protected override void Attack()
@@ -44,13 +59,26 @@ public class RapidAI : EnemyAIBase
     }
 
     protected override void Update() {
-        Move();
         shotTimer += Time.deltaTime;
         if (shotTimer >= timeBetweenShots) {
             isShooting = true;
         }
     }
     private void FixedUpdate() {
+        moveTimer += Time.fixedDeltaTime;
+
+        // friction
+        _rb.AddForce(-_rb.velocity * 1.1f * Time.fixedDeltaTime, ForceMode2D.Impulse);
+
+        if (moveTimer >= timeBetweenMoves)
+        {
+            _rb.velocity = Vector2.zero;
+            Move();
+            moveTimer = 0;
+        }
+
+        _rb.velocity = Vector2.ClampMagnitude(_rb.velocity, 5.0f);
+
         if (isShooting) {
             if (bulletCount < bulletsPerShot) {
                 if (bulletTimer >= timeBetweenBullets) {

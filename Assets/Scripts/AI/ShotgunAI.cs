@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class ShotgunAI : EnemyAIBase
 {
-    public float movementDistance = 5.0f;
+    private Vector2 _moveVec;
+    public float timeBetweenMoves = 5;
+    private float moveTimer = 0;
+    private bool moveDir = true;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -16,10 +19,22 @@ public class ShotgunAI : EnemyAIBase
 
     protected override void Move()
     {
-        // shotgun AI's movement
-        // sinusoidal movement in the y axis
+        _moveVec.x = 0.0f;
+        if (moveDir)
+        {
+            _moveVec.y = 1.0f;
+        }
+        else
+        {
+            _moveVec.y = -1.0f;
+        }
+        
 
-        gameObject.transform.position = startPos + new Vector3(0.0f, Mathf.Sin(Time.time * speed) * movementDistance, 0.0f);
+        _moveVec.Normalize();
+
+        _rb.AddForce(_moveVec * speed, ForceMode2D.Impulse);
+
+        moveDir = !moveDir;
     }
 
     protected override void Attack()
@@ -47,5 +62,27 @@ public class ShotgunAI : EnemyAIBase
 
             shotTimer = 0;
         }
+    }
+
+    protected override void Update()
+    {
+        Attack();
+    }
+
+    private void FixedUpdate()
+    {
+        moveTimer += Time.fixedDeltaTime;
+
+        // friction
+        _rb.AddForce(-_rb.velocity * 1.1f * Time.fixedDeltaTime, ForceMode2D.Impulse);
+
+        if (moveTimer >= timeBetweenMoves)
+        {
+            _rb.velocity = Vector2.zero;
+            Move();
+            moveTimer = 0;
+        }
+
+        _rb.velocity = Vector2.ClampMagnitude(_rb.velocity, 5.0f);
     }
 }
