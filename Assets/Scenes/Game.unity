@@ -291,7 +291,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   pool: {fileID: 1643307869}
-  poolSize: 100
   speed: 3
   bulletSpeed: 10
   timeBetweenShots: 5
@@ -803,7 +802,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bullet: {fileID: 8463362577264772782, guid: bd587f6d34ecbb245ad1e09c25bea6b1, type: 3}
-  _maxBullets: 1000
+  _maxBullets: 12
 --- !u!4 &1643307870
 Transform:
   m_ObjectHideFlags: 0
