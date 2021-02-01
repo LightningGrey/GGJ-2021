@@ -95,7 +95,7 @@ public class Bullet : MonoBehaviour
                 _manager.ResetBullet(gameObject);
                 _Reset();
             }
-            else if (collision.gameObject.tag == "Enemy")
+            else if (collision.gameObject.tag == "Enemy" && _pickup == false)
             {
                 transform.position = new Vector3(_camera._xSize, _camera._ySize, 0.0f);
                 _rb.velocity = Vector2.zero;
