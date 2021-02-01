@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4879371897601679431}
   - component: {fileID: 8947734123701711781}
   - component: {fileID: 7355300531419181856}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: player ship move_0 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,8 +69,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 358094959
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 3893503285081396088, guid: 194db679337da6741b89bfa6717d9c74, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -111,7 +111,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4230723270437878695}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 1631055580120589656}
   - component: {fileID: 1631055580120589657}
   - component: {fileID: -4972174183778431031}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -304,7 +304,7 @@ MonoBehaviour:
   CollisionTag: 
   Event: event:/GameJam/ShipVroom
   PlayEvent: 1
-  StopEvent: 0
+  StopEvent: 2
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0

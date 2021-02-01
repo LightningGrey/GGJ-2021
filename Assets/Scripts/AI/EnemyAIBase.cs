@@ -16,11 +16,14 @@ public class EnemyAIBase : MonoBehaviour
     public Rigidbody2D _rb;
     protected Player player;
 
+    private GameplayManager _manager;
 
     protected virtual void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         startPos = gameObject.transform.position;
+
+        _manager = GameObject.FindGameObjectWithTag("GameManagement").GetComponent<GameplayManager>();
     }
 
     protected virtual void Move()
@@ -46,7 +49,8 @@ public class EnemyAIBase : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("PB"))
         {
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
+            _manager.EnemyKill(gameObject);
         }
     }
 }

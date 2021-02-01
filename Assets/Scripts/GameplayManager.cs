@@ -1,15 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameplayManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> enemies;
 
 
-    public void EnemyKill()
+    public void EnemyKill(GameObject enemy)
     {
-        enemies 
+        enemies.Remove(enemy);
+        enemy.SetActive(false);
+        if (enemies.Count == 0)
+        {
+            SceneManager.LoadScene(2);
+        }
     }
 
 }

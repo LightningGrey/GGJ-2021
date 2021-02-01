@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Wall
   - EnemyManager
+  - GameManagement
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - Enemy
   - EnemyBullet
   - Wall
-  - 
+  - Player
   - 
   - 
   - 
@@ -49,6 +50,9 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Enemy
+    uniqueID: 2151542123
     locked: 0
   - name: Ship
     uniqueID: 358094959
