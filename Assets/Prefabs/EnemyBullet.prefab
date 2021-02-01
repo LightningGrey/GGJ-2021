@@ -187,7 +187,7 @@ MonoBehaviour:
   CollisionTag: 
   Event: event:/GameJam/EnemyShoot
   PlayEvent: 11
-  StopEvent: 0
+  StopEvent: 12
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0

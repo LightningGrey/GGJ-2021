@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Wall
   - EnemyManager
+  - GameManagement
   layers:
   - Default
   - TransparentFX
