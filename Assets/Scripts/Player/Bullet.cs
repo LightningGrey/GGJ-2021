@@ -106,14 +106,19 @@ public class Bullet : MonoBehaviour
         {
             if (collision.gameObject.tag == "Player")
             {
-                if (collision.gameObject.GetComponent<Player>().alive == false)
+                if (!collision.gameObject.GetComponent<Player>().alive)
                 {
                     _manager.ResetBullet(gameObject);
                 }
-                else if (collision.gameObject.GetComponent<Player>().isDodging == false)
+                else if (!collision.gameObject.GetComponent<Player>()._iFrames)
                 {
                     collision.gameObject.GetComponent<Player>().OnHit();
                     _manager.ResetBullet(gameObject);
+                }
+                else if (collision.gameObject.GetComponent<Player>().isDodging)
+                {
+                    Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), 
+                        GetComponent<Collider2D>(), true);
                 }
             }
         }

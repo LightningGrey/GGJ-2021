@@ -154,7 +154,8 @@ MonoBehaviour:
   _manager: {fileID: 0}
   _player: {fileID: 1631055580120589657, guid: ed1fa5a91e4d8824089541991c511530, type: 3}
   _rb: {fileID: 7201867049842857140}
-  _moveDir: {x: 0, y: 0}
+  moveDir: {x: 0, y: 0}
+  pickup: 0
 --- !u!50 &7201867049842857140
 Rigidbody2D:
   serializedVersion: 4
