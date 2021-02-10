@@ -101,7 +101,8 @@ public class RapidAI : EnemyAIBase
             {
                 shotTimer = 0;
                 bulletCount = 0;
-                isShooting = false;
+                isShooting = false; 
+                _animator.SetBool("Attack", false);
             }
         }
     }

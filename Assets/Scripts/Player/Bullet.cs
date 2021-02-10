@@ -106,7 +106,11 @@ public class Bullet : MonoBehaviour
         {
             if (collision.gameObject.tag == "Player")
             {
-                if (collision.gameObject.GetComponent<Player>().isDodging == false)
+                if (collision.gameObject.GetComponent<Player>().alive == false)
+                {
+                    _manager.ResetBullet(gameObject);
+                }
+                else if (collision.gameObject.GetComponent<Player>().isDodging == false)
                 {
                     collision.gameObject.GetComponent<Player>().OnHit();
                     _manager.ResetBullet(gameObject);

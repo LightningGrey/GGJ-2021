@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _moveSpd;
     [SerializeField] public Rigidbody2D _rb;
     [SerializeField] private int _HP = 3;
-    private bool _alive = true;
+    public bool alive = true;
     //[SerializeField] private List<Bullet> _bullets;
 
     //other variables
@@ -49,7 +50,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_alive)
+        if (alive)
         {
             _Movement();
         }
@@ -57,18 +58,20 @@ public class Player : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        _moveVec = context.ReadValue<Vector2>().normalized * 0.5f;
-        if (_moveVec != Vector2.zero)
+        if (alive)
         {
-            float angle = Mathf.Atan2(-_moveVec.x, _moveVec.y) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            _moveVec = context.ReadValue<Vector2>().normalized * 0.5f;
+            if (_moveVec != Vector2.zero)
+            {
+                float angle = Mathf.Atan2(-_moveVec.x, _moveVec.y) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            }
         }
-
     }
 
     public void OnShoot(InputAction.CallbackContext context)
     {
-        if (context.performed && !_manager.isEmpty() && _alive)
+        if (context.performed && !_manager.isEmpty() && alive)
         {
             GameObject _newBullet = _manager.GetBullet();
             _newBullet.GetComponent<Bullet>().moveDir = transform.up;
@@ -78,7 +81,7 @@ public class Player : MonoBehaviour
     }
 
     public void OnDodge(InputAction.CallbackContext context) {
-        if (!isDodging && dodgeTimer >= timeBetweenDodges && _alive) {
+        if (!isDodging && dodgeTimer >= timeBetweenDodges && alive) {
             isDodging = true;
             dodgeTimer = 0.0f;
         }
@@ -96,14 +99,16 @@ public class Player : MonoBehaviour
         if (_HP <= 0)
         {
             _rb.velocity = Vector2.zero;
-            _alive = false;
-
+            _rb.isKinematic = true;
+            alive = false;
+            _animator.SetTrigger("Dead");
         }
     }
 
     public void OnDead()
     {
-
+        gameObject.SetActive(false);
+        SceneManager.LoadScene(2);
     }
 
 }
