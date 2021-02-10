@@ -39,6 +39,7 @@ public class SniperAI : EnemyAIBase
 
         if (shotTimer >= timeBetweenShots)
         {
+            _animator.SetBool("Attack", true);
             GameObject _newBullet = pool.GetBullet();
             _newBullet.transform.position = this.transform.position;
 
@@ -48,7 +49,7 @@ public class SniperAI : EnemyAIBase
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
             _newBullet.transform.rotation = Quaternion.Euler(Vector3.forward * (angle + offset));
-            _newBullet.GetComponent<Bullet>()._moveDir = _newBullet.transform.up;
+            _newBullet.GetComponent<Bullet>().moveDir = _newBullet.transform.up;
             _newBullet.GetComponent<Bullet>()._speed = bulletSpeed;
 
             shotTimer = 0;

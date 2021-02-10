@@ -53,7 +53,7 @@ public class RapidAI : EnemyAIBase
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         _newBullet.transform.rotation = Quaternion.Euler(Vector3.forward * (angle + offset));
-        _newBullet.GetComponent<Bullet>()._moveDir = _newBullet.transform.up;
+        _newBullet.GetComponent<Bullet>().moveDir = _newBullet.transform.up;
         _newBullet.GetComponent<Bullet>()._speed = bulletSpeed;
     }
 
@@ -87,6 +87,7 @@ public class RapidAI : EnemyAIBase
             {
                 if (bulletTimer >= timeBetweenBullets)
                 {
+                    _animator.SetBool("Attack", true);
                     Attack();
                     bulletCount++;
                     bulletTimer = 0;

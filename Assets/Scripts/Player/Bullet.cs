@@ -12,9 +12,9 @@ public class Bullet : MonoBehaviour
     [SerializeField] private Player _player;
     [SerializeField] private Rigidbody2D _rb;
 
-    public Vector2 _moveDir = Vector2.zero;
+    public Vector2 moveDir = Vector2.zero;
 
-    private bool _pickup = false;
+    public bool pickup = false;
     private bool _outOfBounds = false;
 
     private float _timer = 0.0f;
@@ -48,7 +48,7 @@ public class Bullet : MonoBehaviour
                 {
                     _timer = 0.0f;
                     _outOfBounds = false;
-                    _pickup = true;
+                    pickup = true;
                     transform.position = new Vector3(Random.Range(-_camera._xSize / 2,
                         _camera._xSize / 2), Random.Range(-_camera._ySize / 2, _camera._ySize / 2));
                     transform.rotation = Quaternion.identity;
@@ -62,7 +62,7 @@ public class Bullet : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!_outOfBounds && !_pickup)
+        if (!_outOfBounds && !pickup)
         {
             _Move();
         }
@@ -70,7 +70,7 @@ public class Bullet : MonoBehaviour
 
     private void _Move()
     {
-        _rb.AddForce(_moveDir * _speed * Time.fixedDeltaTime, ForceMode2D.Impulse);
+        _rb.AddForce(moveDir * _speed * Time.fixedDeltaTime, ForceMode2D.Impulse);
         _rb.velocity = Vector2.ClampMagnitude(_rb.velocity, 5.5f);
         if (!_outOfBounds && !_InBounds())
         {
@@ -89,13 +89,13 @@ public class Bullet : MonoBehaviour
     {
         if (tag == "PB")
         {
-            if (collision.gameObject.tag == "Player" && _pickup == true)
+            if (collision.gameObject.tag == "Player" && pickup == true)
             {
-                _pickup = false;
+                pickup = false;
                 _manager.ResetBullet(gameObject);
                 _Reset();
             }
-            else if (collision.gameObject.tag == "Enemy" && _pickup == false)
+            else if (collision.gameObject.tag == "Enemy" && pickup == false)
             {
                 transform.position = new Vector3(_camera._xSize, _camera._ySize, 0.0f);
                 _rb.velocity = Vector2.zero;
@@ -106,14 +106,18 @@ public class Bullet : MonoBehaviour
         {
             if (collision.gameObject.tag == "Player")
             {
-                _manager.ResetBullet(gameObject);
+                if (collision.gameObject.GetComponent<Player>().isDodging == false)
+                {
+                    collision.gameObject.GetComponent<Player>().OnHit();
+                    _manager.ResetBullet(gameObject);
+                }
             }
         }
     }
 
     private void _Reset()
     {
-        _pickup = false;
+        pickup = false;
     }
 
     private bool _InBounds()

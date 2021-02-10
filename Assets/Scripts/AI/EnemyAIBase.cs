@@ -17,6 +17,8 @@ public class EnemyAIBase : MonoBehaviour
     protected Player player;
 
     private GameplayManager _manager;
+    [SerializeField] protected Animator _animator;
+
 
     protected virtual void Start()
     {
@@ -49,8 +51,16 @@ public class EnemyAIBase : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("PB"))
         {
-            //gameObject.SetActive(false);
-            _manager.EnemyKill(gameObject);
+            if (collision.gameObject.GetComponent<Bullet>().pickup == false)
+            {
+                //gameObject.SetActive(false);
+                _manager.EnemyKill(gameObject);
+            }
         }
+    }
+
+    protected void AnimEnd()
+    {
+        _animator.SetBool("Attack", false);
     }
 }

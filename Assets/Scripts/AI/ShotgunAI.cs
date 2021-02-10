@@ -43,7 +43,7 @@ public class ShotgunAI : EnemyAIBase
 
         if (shotTimer >= timeBetweenShots)
         {
-
+            _animator.SetBool("Attack", true);
             GameObject _newBullet;
 
             var offset = -60.0f;
@@ -56,7 +56,7 @@ public class ShotgunAI : EnemyAIBase
                 _newBullet = pool.GetBullet();
                 _newBullet.transform.position = this.transform.position;
                 _newBullet.transform.rotation = Quaternion.Euler(Vector3.forward * (angle + offset));
-                _newBullet.GetComponent<Bullet>()._moveDir = _newBullet.transform.up;
+                _newBullet.GetComponent<Bullet>().moveDir = _newBullet.transform.up;
                 _newBullet.GetComponent<Bullet>()._speed = bulletSpeed;
                 offset -= 15.0f;
             }
